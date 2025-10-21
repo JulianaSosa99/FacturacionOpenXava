@@ -23,6 +23,7 @@
 			<version>${openxava.version}</version>
 		</dependency>
 		
+		
 		<!-- 
 		Para acceder a tu base de datos descomenta la entrada correspondiente 
 		de las dependencias de abajo. Si no encuentras la tuya, busca en
@@ -30,13 +31,12 @@
 		aquí tu mismo.
 		-->
 		
-		<!-- MySQL 
+		<!-- MySQL -->
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>		
-    		<version>9.4.0</version>
+    		<version>8.4.0</version>
 		</dependency>
-		-->
 		
 		<!-- PostgreSQL 
 		<dependency>
@@ -69,6 +69,7 @@
     		<version>13.2.0.jre8</version>
 		</dependency>
 		-->
+		
 		
 		<!-- Informix
 		<dependency>

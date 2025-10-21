@@ -1,0 +1,22 @@
+# Archivos de Eclipse / IntelliJ / VSCode
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+
+# Carpetas de compilación
+build/
+target/
+bin/
+
+# Archivos temporales
+*.log
+*.tmp
+
+# Librerías locales
+/web/WEB-INF/lib/
+
+# Configuración del sistema
+.DS_Store
+Thumbs.db
