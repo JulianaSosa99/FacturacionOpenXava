@@ -1,59 +1,28 @@
 package com.tuempresa.facturacion.modelo;
  
-import java.time.*;
 import java.util.*;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
-import org.openxava.calculators.*;
-
-import com.tuempresa.facturacion.calculadores.*;
 
 import lombok.*;
-
+ 
 @Entity @Getter @Setter
-@View(members= // Esta vista no tiene nombre, por tanto será la vista usada por defecto
-"anyo, numero, fecha;" + // Separados por coma significa en la misma línea
-"cliente;" + // Punto y coma significa nueva línea
-"detalles;" +
-"observaciones"
+@View(extendsView="super.DEFAULT", // Extiende de la vista de DocumentoComercial
+members="pedidos { pedidos }" // Añadimos pedidos dentro de una pestaña
 )
-
-public class Factura {
-
-    @Id
-    @GeneratedValue(generator="system-uuid")
-    @Hidden
-    @GenericGenerator(name="system-uuid", strategy="uuid")
-    @Column(length=32)
-    String oid;
+@View( name="SinClienteNiPedidos", // Una vista llamada SinClienteNiPedidos
+members=                       // que no incluye cliente ni pedidos
+    "anyo, numero, fecha;" +   // Ideal para usarse desde Pedido
+    "detalles;" +
+    "observaciones"
+)
+public class Factura extends DocumentoComercial {
  
-    @Column(length=4)
-    @DefaultValueCalculator(CurrentYearCalculator.class) // Año actual
-    int anyo;
- 
-    @Column(length=6)
-    @DefaultValueCalculator(value=CalculadorSiguienteNumeroParaAnyo.class,
-        properties=@PropertyValue(name="anyo"))
-    int numero;
- 
-    @Required
-    @DefaultValueCalculator(CurrentLocalDateCalculator.class) // Fecha actual
-    LocalDate fecha;
- 
-    @Stereotype("MEMO")
-    String observaciones;
-    
-    @ManyToOne(fetch=FetchType.LAZY, optional=false) // El cliente es obligatorio
-    @ReferenceView("Simple")
-    Cliente cliente;
-    
-    @ElementCollection
-    @ListProperties("producto.numero, producto.descripcion, cantidad")
-    Collection<Detalle> detalles;
-
+	
+    @OneToMany(mappedBy="factura")
+    @CollectionView("SinClienteNiFactura") 
+    Collection<Pedido> pedidos; // Colección de entidades Pedido añadida
  
 }
